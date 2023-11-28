@@ -67,7 +67,7 @@ namespace CRUDSample.Droid
                 join user in con.Table<User>() on transaction.IdUser equals user.IdUser
                 select new Transactions
                 {
-                    IdTransaction = transaction.IdTransaction,
+                    IdTransactions = transaction.IdTransaction,
                     name = goods.NameGoods,
                     user = user.NameUser,
                     Quantity = transaction.Quantity,
@@ -78,7 +78,7 @@ namespace CRUDSample.Droid
             List<Transactions> result = query.ToList();
             foreach (var item in result)
             {
-                Console.WriteLine($"TESTYGY SUUU ${item.IdTransaction}");
+               
             }
 
             return result;
@@ -88,14 +88,14 @@ namespace CRUDSample.Droid
             bool res = false;
             try
             {
-                string sql = $"UPDATE Transaction SET IdGoods='{transaction.IdGoods}',IdUser='{transaction.IdUser}',Quantity='{transaction.Quantity}'," +
+                string sql = $"UPDATE [Transaction] SET IdGoods='{transaction.IdGoods}',IdUser='{transaction.IdUser}',Quantity='{transaction.Quantity}'," +
                                 $"DateTransaction='{transaction.DateTransaction}' WHERE IdTransaction={transaction.IdTransaction}";
                 con.Execute(sql);
                 res = true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"TESTYGY ${ex}");
+                Console.WriteLine($"UHUY ${ex}");
                 throw;
 
             }
@@ -105,11 +105,8 @@ namespace CRUDSample.Droid
         {
             try
             {
-                string sql = $"DELETE FROM Transaction WHERE IdTransaction={Id}";
+                string sql = $"DELETE FROM [Transaction] WHERE IdTransaction={Id}";
                 con.Execute(sql);
-            
-                string sql2 = $"DELETE FROM Transactions WHERE IdTransaction={Id}";
-                con.Execute(sql2);
             }
             catch (Exception e)
             {

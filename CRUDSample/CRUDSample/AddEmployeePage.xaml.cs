@@ -13,6 +13,7 @@ namespace CRUDSample
 	public partial class AddEmployeePage : ContentPage
 	{
         Transactions employeeDetails;
+        private Transaction a;
        
 		public AddEmployeePage (Transactions details)
 		{
@@ -24,7 +25,8 @@ namespace CRUDSample
             {
                 
                 employeeDetails = details;
-                Console.WriteLine($"TESTYGY SUUUIS ${employeeDetails.IdTransaction} ${employeeDetails.name}");
+                a = DependencyService.Get<ISQLite>().TransactionById(employeeDetails.IdTransactions);
+                Console.WriteLine($"TESTYGY SUUUIS ${employeeDetails.IdTransactions} ${employeeDetails.name}");
                 PopulateDetails(employeeDetails);
             }
 		}
@@ -49,11 +51,12 @@ namespace CRUDSample
                 {
                     
                     Transaction transaction = new Transaction();
-                    transaction.IdGoods = goods.IdGoods;
-                    transaction.IdUser = users.IdUser;
+                    transaction.IdGoods = goods.IdGoods == null ? 1 : goods.IdGoods ;
+                    transaction.IdUser = users.IdUser == null ? 1 : users.IdUser;
                     transaction.Quantity = parsedQuantity;
                     transaction.DateTransaction = date.Text;
 
+                    
                     bool res = DependencyService.Get<ISQLite>().SaveTransaction(transaction);
                     if (res)
                     {
@@ -73,16 +76,47 @@ namespace CRUDSample
             else
             {
                 
+               
                 if (int.TryParse(quantity.Text, out int parsedQuantity))
                 {
-                    // update employee
-                    Transaction transactionUpdate = new Transaction();
-                    transactionUpdate.IdTransaction = employeeDetails.IdTransaction;
-                    transactionUpdate.IdGoods = goods.IdGoods;
-                    transactionUpdate.IdUser = users.IdUser;
-                    transactionUpdate.Quantity = parsedQuantity;
-                    transactionUpdate.DateTransaction = date.Text;
                     
+                    Console.WriteLine($"RONALDO ${a.IdTransaction} ${a.IdGoods} ${a.IdUser} ${a.Quantity} ${a.DateTransaction}");
+                    
+                    Transaction transactionUpdate = new Transaction();
+                    // update employee
+                    if (pickerProduct.SelectedIndex == -1 && pickerUser.SelectedIndex == -1)
+                    {
+                       
+                        transactionUpdate.IdTransaction = employeeDetails.IdTransactions;
+                        transactionUpdate.IdGoods = a.IdGoods;
+                        transactionUpdate.IdUser = a.IdGoods;
+                        transactionUpdate.Quantity = parsedQuantity;
+                        transactionUpdate.DateTransaction = date.Text;
+                    }else if (pickerProduct.SelectedIndex == -1)
+                    {
+                        transactionUpdate.IdTransaction = employeeDetails.IdTransactions;
+                        transactionUpdate.IdGoods = a.IdGoods;
+                        transactionUpdate.IdUser = users.IdUser;
+                        transactionUpdate.Quantity = parsedQuantity;
+                        transactionUpdate.DateTransaction = date.Text;
+                        
+                    }else if (pickerUser.SelectedIndex == -1)
+                    {
+                        transactionUpdate.IdTransaction = employeeDetails.IdTransactions;
+                        transactionUpdate.IdGoods = goods.IdGoods;
+                        transactionUpdate.IdUser = a.IdUser;
+                        transactionUpdate.Quantity = parsedQuantity;
+                        transactionUpdate.DateTransaction = date.Text;
+                    }
+                    else
+                    {
+                        
+                        transactionUpdate.IdTransaction = employeeDetails.IdTransactions;
+                        transactionUpdate.IdGoods = goods.IdGoods;
+                        transactionUpdate.IdUser = users.IdUser;
+                        transactionUpdate.Quantity = parsedQuantity;
+                        transactionUpdate.DateTransaction = date.Text;
+                    }
 
                     try
                     {

@@ -39,13 +39,22 @@ namespace CRUDSample
 
         private async void DeleteEmployee(object sender, EventArgs e)
         {
-            bool res=await DisplayAlert("Message", "Do you want to delete transacion?", "Ok", "Cancel");
+            bool res=await DisplayAlert("Message", "Do you want to delete transaction?", "Ok", "Cancel");
             if(res)
             {
-                var menu = sender as MenuItem;
-                Transaction details = menu.CommandParameter as Transaction;
-                DependencyService.Get<ISQLite>().DeleteTransaction(details.IdTransaction);
-                PopulateEmployeeList();
+                try
+                {
+                    var menu = sender as MenuItem;
+                    Transactions details = menu.CommandParameter as Transactions;
+                    DependencyService.Get<ISQLite>().DeleteTransaction(details.IdTransactions);
+                    Console.WriteLine($"TESTYGY SUUU ${details.IdTransactions}");
+                    PopulateEmployeeList();
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine($"MESSI ${exception}");
+                    throw;
+                }
             }          
         }
     }

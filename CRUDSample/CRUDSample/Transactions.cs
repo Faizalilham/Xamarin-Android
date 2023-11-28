@@ -2,7 +2,7 @@ namespace CRUDSample
 {
     public class Transactions
     {
-        public int IdTransaction { get; set; }
+        public int IdTransactions { get; set; }
         
         public string name { get; set; }
         
