@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CRUDSample.AddEmployeePage" Title="Add Meeting">
+    <ContentPage.Content>
+        <StackLayout Padding="5">
+            <Picker Title="Select Product" x:Name="pickerProduct"  ItemDisplayBinding="{Binding NameGoods}" />
+            <Picker Title="Select User" x:Name="pickerUser"  ItemDisplayBinding="{Binding NameUser}" />
+            <Label Text="Quantity" FontAttributes="Bold" TextColor="Black"/>
+            <Entry Placeholder="Quantity" FontSize="Small" HorizontalOptions="FillAndExpand" x:Name="quantity" 
+                   Keyboard="Numeric"/>
+            <Label Text="Date Transaction" FontAttributes="Bold" TextColor="Black"/>
+            <Entry Placeholder="Date" FontSize="Small" HorizontalOptions="FillAndExpand" Keyboard="Email" x:Name="date"/>
+            
+
+            <Button Text="Save" Clicked="SaveTransaction" HorizontalOptions="FillAndExpand" 
+                    BackgroundColor="Orange" TextColor="White" x:Name="saveBtn"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
